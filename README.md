@@ -10,3 +10,6 @@ python3 configure.py <host> <user>
 
 # Configuration
 You have to set the appropriate ssh private key in sut
+
+# Development
+Check design with Rondinelli and implement functional tests with Robot Framework
