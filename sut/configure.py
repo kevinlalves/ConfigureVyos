@@ -3,50 +3,36 @@ import sys
 
 class ConfigureVyos(object):
 
-    def __init__(self, host, user, port=22):
-        self.vyos_router = {
-        'device_type': 'vyos',
-        'host': host,
-        'username': user,
-        'key_file': 'id_rsa',
-        'port': port,
+    def __init__(self, host, user, port):
+        vyos_router = {
+            'device_type': 'vyos',
+            'host': host,
+            'username': user,
+            'key_file': 'id_rsa',
+            'port': port,
         }
-        self.net_connect = netmiko.ConnectHandler(**self.vyos_router)
-        self.command = []
+        self.net_connect = netmiko.ConnectHandler(**vyos_router)
 
-    def start(self):
-        option = input("configure, run command or quit? (conf/run/q): ")
-        while option != 'q':
-            if option == 'conf':
-                self.command = []
-                cmd_line = input('enter configuration(q/quit): ')
-                while cmd_line not in ('q','quit'):
-                    self.command += [cmd_line]
-                    cmd_line = input('enter configuration(q/quit): ')
-                self.config_commands()
-            elif option == 'run':
-                self.command = input('enter command(q/quit): ')
-                while self.command not in ('q','quit'):
-                    self.run_commands()
-                    self.command = input('enter command(q/quit): ')
-            else :
-                print('Options are only "conf" and "run"')
+    def check_connection(self):
+        return self.net_connect.send_command('hostname')
 
-            option = input("\nconfigure, run command or quit? (conf/run/q): ")
-
-    def config_commands(self):
-        output = self.net_connect.send_config_set(self.command, exit_config_mode=False)
+    def send_configuration(self, configs):
+        output = self.net_connect.send_config_set(configs, exit_config_mode=False)
         self.net_connect.commit()
-        print(output)
+        self.net_connect.exit_config_mode()
         return output
-    
-    def run_commands(self):
-        output = self.net_connect.send_command(self.command)
-        print(output)
-        return output
+
+
+def check_connection(host, user, port):
+    return ConfigureVyos(host, user, port).check_connection()
+
+
+def send_configuration(host, user, port, *configs):
+    return ConfigureVyos(host, user, port).send_configuration(configs)
 
 if __name__ == '__main__':
-    host = sys.argv[1]
-    user = sys.argv[2]
-    vyos_2 = ConfigureVyos(host, user)
-    vyos_2.start()
+    actions = {'check': check_connection, 'config': send_configuration}
+    action = sys.argv[1]
+    args = sys.argv[2:]
+    actions[action](*args)
+    

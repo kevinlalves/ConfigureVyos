@@ -8,11 +8,14 @@ class ConfigureLibrary(object):
         self._sut_path = os.path.join(os.path.dirname(__file__), '..', 'sut', 'configure.py')
         self._status = ''
     
-    def access_vyos(self, user, address):
-        self._run_command('access', user, address)
+    def check_connection(self, host, user, port='22'):
+        self._run_command('check', host, user, port)
+
+    def send_configuration(self, host, user, configs, port='22'):
+        self._run_command('config', host, user, port, *configs)
 
     def _run_command(self, command, *args):
-        command = [sys.executable, self._sut_path, command] + list(*args)
+        command = [sys.executable, self._sut_path, command] + list(args)
         process = subprocess.Popen(command, universal_newlines=True, stdout=subprocess.PIPE,
                                     stderr=subprocess.STDOUT)
         self._status = process.communicate()[0].strip()
