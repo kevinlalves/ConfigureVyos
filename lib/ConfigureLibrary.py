@@ -16,6 +16,5 @@ class ConfigureLibrary(object):
 
     def _run_command(self, command, *args):
         command = [sys.executable, self._sut_path, command] + list(args)
-        process = subprocess.Popen(command, universal_newlines=True, stdout=subprocess.PIPE,
-                                    stderr=subprocess.STDOUT)
-        self._status = process.communicate()[0].strip()
+        self._status = subprocess.run(command, universal_newlines=True)
+        

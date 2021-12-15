@@ -7,7 +7,7 @@
     ${USERNAME}  kelaves
     ${VYOS2}     192.168.56.101
     ${VYOS1}     192.168.56.102
-    ${COMMANDS}  set interfaces ethernet eth0 description tchutchucao     
+    @{COMMANDS}  set interfaces ethernet eth0 description Default   set interfaces ethernet eth1 description Inside     set interfaces ethernet eth2 description Outside
     
     *** Test Cases ***
     Valid host and user should connect

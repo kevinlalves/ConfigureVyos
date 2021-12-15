@@ -8,7 +8,7 @@ class ConfigureVyos(object):
             'device_type': 'vyos',
             'host': host,
             'username': user,
-            'key_file': 'id_rsa',
+            'key_file': 'sut/id_rsa',
             'port': port,
         }
         self.net_connect = netmiko.ConnectHandler(**vyos_router)

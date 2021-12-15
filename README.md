@@ -1,15 +1,16 @@
 # About
-Implemets a class used for interactive configuration of VyOS router
+Implemets a class used for autonomous configuration of VyOS router
 
 # Usage
-As of now, you can configure any VyOS system in a host-only network from the host engine. From sut folder, run:
+Run robot script to send configurations to the Vyos device:
 
-´´´sh
-python3 configure.py <host> <user>
-´´´
+```sh
+robot VyosConfig.rst
+```
 
 # Configuration
 You have to set the appropriate ssh private key in sut
 
-# Development
-Check design with Rondinelli and implement functional tests with Robot Framework
+# TO DO
+Implement chekage of configuration commands application through the use of regex expressions.
+Expand configuration set sent to the device
