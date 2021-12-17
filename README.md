@@ -1,16 +1,19 @@
 # About
-Implemets a class used for autonomous configuration of VyOS router
+Implemets a class used for autonomous configuration of VyOS router and check if Vyos is able to trade packets properly
 
 # Usage
-Run robot script to send configurations to the Vyos device:
+Run configure.py python program to send configurations to the Vyos device:
 
 ```sh
-robot VyosConfig.rst
+python3 configure.py
+```
+
+
+Run robot script to test wether the devices are trading packets normally:
+```sh
+robot VyosTest.rst
 ```
 
 # Configuration
-You have to set the appropriate ssh private key in sut
-
-# TO DO
-Implement chekage of configuration commands application through the use of regex expressions.
-Expand configuration set sent to the device
+You have to set the appropriate ssh private key in sut.
+Edit config.txt and device.txt in accordance to your devices and the configurations intended to be sent

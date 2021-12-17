@@ -16,7 +16,7 @@ class VyosFunctionality(object):
         self.ssh_connection = netmiko.ConnectHandler(**vyos_router)
     
     def vyos_ping(self, destination_host):
-        return self.ssh_connection.send_command(f'ping {destination_host}', re.compile('icmp_seq=10', max_loops=60))
+        return self.ssh_connection.send_command(f'ping {destination_host}', re.compile('icmp_seq=10.*time='), max_loops=60)
 
 
 def vyos_ping(host, user, port, destination_host):

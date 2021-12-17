@@ -18,11 +18,13 @@ class VyosLibrary(object):
 
     def _run_command(self, command, *args):
         command = [sys.executable, self._sut_path, command] + list(args)
-        self._status = subprocess.run(command, universal_newlines=True, timeout=10)
+        self._status = subprocess.run(command, universal_newlines=True, capture_output=True)
+        if self._status.stderr != '':
+            raise IOError(self._status.stderr)
         return self._status.stdout
 
     def _run_internal_command(self, command, *args):
         command = [command] + list(args)
-        self._status = subprocess.run(command, universal_newlines=True)
+        self._status = subprocess.run(command, universal_newlines=True, capture_output=True)
         return self._status.stdout
         
